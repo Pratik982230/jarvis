@@ -1,0 +1,12 @@
+# Python Tkinter Basic Window
+
+import tkinter as tk
+
+root = tk.Tk()
+root.title("My First Tkinter Window")
+root.geometry("300x200")
+
+label = tk.Label(root, text="Hello, Tkinter!", font=("Arial", 14))
+label.pack(pady=50)
+
+root.mainloop()

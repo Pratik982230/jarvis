@@ -1,0 +1,121 @@
+# ============================================================
+# 🗃️ SQLite Database Access - CRUD Operations
+# ============================================================
+
+import sqlite3
+
+# ----------- CONNECT TO DATABASE -----------
+conn = sqlite3.connect("students.db")   # Creates file if not exists
+cursor = conn.cursor()
+
+# ----------- CREATE TABLE -----------
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER,
+    grade TEXT
+)
+""")
+conn.commit()
+
+# ----------- FUNCTIONS -----------
+def insert_student():
+    name = input("Enter student name: ")
+    age = int(input("Enter age: "))
+    grade = input("Enter grade: ")
+    cursor.execute("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", (name, age, grade))
+    conn.commit()
+    print("✅ Student added successfully!\n")
+
+def view_students():
+    cursor.execute("SELECT * FROM students")
+    rows = cursor.fetchall()
+    if not rows:
+        print("⚠️ No records found.\n")
+    else:
+        print("\n📘 All Students:")
+        for row in rows:
+            print(row)
+        print()
+
+def search_students():
+    age_limit = int(input("Enter minimum age to search: "))
+    cursor.execute("SELECT * FROM students WHERE age > ?", (age_limit,))
+    rows = cursor.fetchall()
+    if not rows:
+        print("⚠️ No students found above that age.\n")
+    else:
+        print("\n🎯 Students older than", age_limit, ":")
+        for row in rows:
+            print(row)
+        print()
+
+def update_student():
+    view_students()
+    sid = int(input("Enter ID of student to update: "))
+    new_grade = input("Enter new grade: ")
+    cursor.execute("UPDATE students SET grade = ? WHERE id = ?", (new_grade, sid))
+    conn.commit()
+    if cursor.rowcount > 0:
+        print("✅ Student updated successfully!\n")
+    else:
+        print("⚠️ No record found with that ID.\n")
+
+def delete_student():
+    view_students()
+    sid = int(input("Enter ID of student to delete: "))
+    cursor.execute("DELETE FROM students WHERE id = ?", (sid,))
+    conn.commit()
+    if cursor.rowcount > 0:
+        print("🗑️ Student deleted successfully!\n")
+    else:
+        print("⚠️ No record found with that ID.\n")
+
+def drop_table():
+    confirm = input("⚠️ Do you really want to delete the entire table? (yes/no): ")
+    if confirm.lower() == 'yes':
+        cursor.execute("DROP TABLE IF EXISTS students")
+        conn.commit()
+        print("⚠️ Table dropped successfully!\n")
+    else:
+        print("❎ Table not dropped.\n")
+
+# ----------- MENU -----------
+while True:
+    print("""
+==============================
+   🗃️ SQLite CRUD Operations
+==============================
+1️⃣ Insert new student
+2️⃣ View all students
+3️⃣ Search students by age
+4️⃣ Update student grade
+5️⃣ Delete a student
+6️⃣ Drop entire table
+0️⃣ Exit
+""")
+
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        insert_student()
+    elif choice == '2':
+        view_students()
+    elif choice == '3':
+        search_students()
+    elif choice == '4':
+        update_student()
+    elif choice == '5':
+        delete_student()
+    elif choice == '6':
+        drop_table()
+    elif choice == '0':
+        print("👋 Exiting program. Goodbye!")
+        break
+    else:
+        print("❌ Invalid choice! Please try again.\n")
+
+# ----------- CLOSE CONNECTION -----------
+cursor.close()
+conn.close()

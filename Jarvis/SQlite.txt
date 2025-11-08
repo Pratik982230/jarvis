@@ -1,0 +1,63 @@
+# ============================================================
+# 🗃️ SQLite Example - All Operations
+# ============================================================
+
+import sqlite3
+
+# ----------- CONNECTION -----------
+conn = sqlite3.connect("school.db")
+cursor = conn.cursor()
+
+# ----------- CREATE TABLE -----------
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER,
+    grade TEXT
+)
+""")
+
+# ----------- INSERT DATA -----------
+n = int(input("Enter number of students: "))
+for i in range(n):
+    name = input("Enter name: ")
+    age = int(input("Enter age: "))
+    grade = input("Enter grade: ")
+    cursor.execute("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", (name, age, grade))
+    conn.commit()
+
+print("\n✅ Data inserted!")
+
+# ----------- SELECT DATA -----------
+print("\n📘 All Students:")
+cursor.execute("SELECT * FROM students")
+for row in cursor.fetchall():
+    print(row)
+
+# ----------- WHERE -----------
+age_limit = int(input("\nEnter age limit: "))
+cursor.execute("SELECT * FROM students WHERE age > ?", (age_limit,))
+for row in cursor.fetchall():
+    print(row)
+
+# ----------- UPDATE -----------
+update_id = int(input("\nEnter ID to update grade: "))
+new_grade = input("Enter new grade: ")
+cursor.execute("UPDATE students SET grade = ? WHERE id = ?", (new_grade, update_id))
+conn.commit()
+print("✅ Updated!")
+
+# ----------- DELETE -----------
+del_id = int(input("\nEnter ID to delete: "))
+cursor.execute("DELETE FROM students WHERE id = ?", (del_id,))
+conn.commit()
+print("🗑️ Deleted!")
+
+# ----------- DROP TABLE -----------
+drop = input("\nDrop table? (yes/no): ")
+if drop.lower() == 'yes':
+    cursor.execute("DROP TABLE students")
+    print("⚠️ Table dropped!")
+
+conn.close()

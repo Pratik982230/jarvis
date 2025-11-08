@@ -1,0 +1,47 @@
+# ============================================================
+# 🌸 Program: Scikit-Learn – Iris Dataset with Confusion Matrix & F1 Score
+#    pip install scikit-learn pandas
+
+# ============================================================
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, classification_report
+import pandas as pd
+
+# Step 1️⃣: Load the Iris dataset
+iris = load_iris()
+X = iris.data           # Features
+y = iris.target         # Labels
+
+# Step 2️⃣: Split into training (80%) and testing (20%)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Step 3️⃣: Create and train the Decision Tree model
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
+
+# Step 4️⃣: Predict on test data
+y_pred = model.predict(X_test)
+
+# Step 5️⃣: Evaluate model performance
+accuracy = accuracy_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred, average='macro')  # macro = average across all classes
+cm = confusion_matrix(y_test, y_pred)
+
+# Step 6️⃣: Display the results
+print("=== 🌸 Iris Dataset Classification Results ===")
+print(f"Training Samples: {len(X_train)}")
+print(f"Testing Samples: {len(X_test)}")
+print(f"✅ Accuracy: {accuracy * 100:.2f}%")
+print(f"✅ F1 Score: {f1:.2f}")
+print("\n=== Confusion Matrix ===")
+print(pd.DataFrame(cm, 
+                   index=iris.target_names, 
+                   columns=iris.target_names))
+
+print("\n=== Detailed Classification Report ===")
+print(classification_report(y_test, y_pred, target_names=iris.target_names))

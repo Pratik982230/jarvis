@@ -1,0 +1,121 @@
+# ============================================================
+# 🧩 UNIT V: GUI in Python - All Topics in One Program
+#   pip install PyQt5
+#   python -m tkinter
+# ============================================================
+
+# ----------- IMPORTS -----------
+import tkinter as tk
+from tkinter import messagebox
+
+# ============================================================
+# 1️⃣ BASIC TKINTER WINDOW
+# ============================================================
+root = tk.Tk()
+root.title("Unit V: GUI in Python")
+root.geometry("600x600")
+
+header = tk.Label(root, text="🎨 GUI in Python (Tkinter & PyQt Intro)", font=("Arial", 16, "bold"), fg="darkblue")
+header.pack(pady=10)
+
+# ============================================================
+# 2️⃣ TKINTER WIDGETS EXAMPLES
+# ============================================================
+
+frame_widgets = tk.LabelFrame(root, text="Widgets Example", padx=10, pady=10)
+frame_widgets.pack(fill="both", expand="yes", padx=20, pady=10)
+
+# Label
+lbl_name = tk.Label(frame_widgets, text="Enter your name:", font=("Arial", 12))
+lbl_name.pack(pady=5)
+
+# Entry
+entry_name = tk.Entry(frame_widgets, width=30)
+entry_name.pack(pady=5)
+
+# Button Function
+def greet():
+    name = entry_name.get()
+    if name:
+        messagebox.showinfo("Greeting", f"Hello, {name}!")
+    else:
+        messagebox.showwarning("Input Error", "Please enter your name!")
+
+# Button
+btn_greet = tk.Button(frame_widgets, text="Click to Greet", bg="lightblue", command=greet)
+btn_greet.pack(pady=5)
+
+# Checkbox
+agree_var = tk.IntVar()
+chk = tk.Checkbutton(frame_widgets, text="I agree to terms", variable=agree_var)
+chk.pack()
+
+# Radio Buttons
+lang_var = tk.StringVar(value="Python")
+tk.Radiobutton(frame_widgets, text="Python", variable=lang_var, value="Python").pack()
+tk.Radiobutton(frame_widgets, text="Java", variable=lang_var, value="Java").pack()
+tk.Radiobutton(frame_widgets, text="C++", variable=lang_var, value="C++").pack()
+
+# ============================================================
+# 3️⃣ GEOMETRY MANAGERS: pack(), grid(), place()
+# ============================================================
+
+frame_geometry = tk.LabelFrame(root, text="Geometry Managers", padx=10, pady=10)
+frame_geometry.pack(fill="both", expand="yes", padx=20, pady=10)
+
+# Using pack()
+tk.Label(frame_geometry, text="pack() Example", bg="lightyellow").pack(fill="x")
+
+# Using grid()
+grid_frame = tk.Frame(frame_geometry)
+grid_frame.pack(pady=5)
+
+for i in range(2):
+    for j in range(2):
+        tk.Label(grid_frame, text=f"({i},{j})", borderwidth=1, relief="solid", width=10).grid(row=i, column=j, padx=5, pady=5)
+
+# Using place()
+tk.Label(frame_geometry, text="place() Example", bg="lightgreen").place(x=200, y=120)
+tk.Button(frame_geometry, text="Placed Button").place(x=250, y=150)
+
+# ============================================================
+# 4️⃣ BUTTON DEMO
+# ============================================================
+
+frame_button = tk.LabelFrame(root, text="Button Example", padx=10, pady=10)
+frame_button.pack(fill="both", expand="yes", padx=20, pady=10)
+
+lbl_status = tk.Label(frame_button, text="Click below button", font=("Arial", 12))
+lbl_status.pack(pady=5)
+
+def button_clicked():
+    lbl_status.config(text="Button was clicked!", fg="green")
+
+btn_demo = tk.Button(frame_button, text="Click Me", bg="lightblue", command=button_clicked)
+btn_demo.pack(pady=5)
+
+# ============================================================
+# 5️⃣ INTRODUCTION TO PYQT5
+# ============================================================
+frame_pyqt = tk.LabelFrame(root, text="Introduction to PyQt5", padx=10, pady=10)
+frame_pyqt.pack(fill="both", expand="yes", padx=20, pady=10)
+
+pyqt_text = """PyQt5 is a set of Python bindings for the Qt framework.
+It allows creating powerful desktop GUI applications.
+Example code for PyQt5:
+
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+app = QApplication([])
+w = QWidget()
+w.setWindowTitle("PyQt Example")
+QLabel("Hello PyQt", parent=w).move(50,50)
+w.show()
+app.exec_()
+"""
+pyqt_label = tk.Label(frame_pyqt, text=pyqt_text, justify="left", font=("Consolas", 10), bg="lightgray")
+pyqt_label.pack(padx=5, pady=5, fill="x")
+
+# ============================================================
+# MAINLOOP
+# ============================================================
+root.mainloop()

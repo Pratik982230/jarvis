@@ -1,0 +1,136 @@
+# ============================================================
+# 🐬 MySQL (with SQLite fallback) Database Access - All Operations in One
+# ============================================================
+
+try:
+    import mysql.connector
+    mysql_available = True
+except ImportError:
+    print("⚠️ MySQL connector not found. Switching to SQLite...")
+    mysql_available = False
+
+import sqlite3
+
+# ============================================================
+# 1️⃣ CONNECT TO DATABASE
+# ============================================================
+if mysql_available:
+    try:
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="your_password"   # 🔹 Replace with your MySQL password
+        )
+        cursor = mydb.cursor()
+        cursor.execute("CREATE DATABASE IF NOT EXISTS school")
+        cursor.execute("USE school")
+        print("✅ Connected to MySQL successfully!")
+    except Exception as e:
+        print(f"❌ MySQL connection failed: {e}")
+        print("👉 Switching to SQLite mode...")
+        mysql_available = False
+
+# ============================================================
+# 2️⃣ FALLBACK TO SQLITE IF MYSQL NOT AVAILABLE
+# ============================================================
+if not mysql_available:
+    mydb = sqlite3.connect("school_fallback.db")
+    cursor = mydb.cursor()
+    print("✅ Connected to SQLite (fallback mode)!")
+
+# ============================================================
+# 3️⃣ CREATE TABLE
+# ============================================================
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER,
+    grade TEXT
+)
+""")
+
+# ============================================================
+# 4️⃣ INSERT DATA
+# ============================================================
+n = int(input("Enter number of students to insert: "))
+for i in range(n):
+    name = input(f"Enter name for student {i+1}: ")
+    age = int(input("Enter age: "))
+    grade = input("Enter grade: ")
+
+    if mysql_available:
+        cursor.execute("INSERT INTO students (name, age, grade) VALUES (%s, %s, %s)", (name, age, grade))
+    else:
+        cursor.execute("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)", (name, age, grade))
+
+    mydb.commit()
+
+print("\n✅ Data inserted successfully!")
+
+# ============================================================
+# 5️⃣ SELECT ALL
+# ============================================================
+print("\n📘 All Students:")
+cursor.execute("SELECT * FROM students")
+for row in cursor.fetchall():
+    print(row)
+
+# ============================================================
+# 6️⃣ WHERE CONDITION
+# ============================================================
+age_limit = int(input("\nEnter age limit to filter: "))
+if mysql_available:
+    cursor.execute("SELECT * FROM students WHERE age > %s", (age_limit,))
+else:
+    cursor.execute("SELECT * FROM students WHERE age > ?", (age_limit,))
+print(f"\n🎯 Students older than {age_limit}:")
+for row in cursor.fetchall():
+    print(row)
+
+# ============================================================
+# 7️⃣ ORDER BY
+# ============================================================
+cursor.execute("SELECT * FROM students ORDER BY name ASC")
+print("\n🔤 Students ordered by name:")
+for row in cursor.fetchall():
+    print(row)
+
+# ============================================================
+# 8️⃣ UPDATE
+# ============================================================
+update_id = int(input("\nEnter ID to update grade: "))
+new_grade = input("Enter new grade: ")
+
+if mysql_available:
+    cursor.execute("UPDATE students SET grade = %s WHERE id = %s", (new_grade, update_id))
+else:
+    cursor.execute("UPDATE students SET grade = ? WHERE id = ?", (new_grade, update_id))
+
+mydb.commit()
+print("✅ Record updated!")
+
+# ============================================================
+# 9️⃣ DELETE
+# ============================================================
+del_id = int(input("\nEnter ID to delete: "))
+
+if mysql_available:
+    cursor.execute("DELETE FROM students WHERE id = %s", (del_id,))
+else:
+    cursor.execute("DELETE FROM students WHERE id = ?", (del_id,))
+
+mydb.commit()
+print("🗑️ Record deleted!")
+
+# ============================================================
+# 🔟 DROP TABLE
+# ============================================================
+drop = input("\nDo you want to drop the table? (yes/no): ")
+if drop.lower() == 'yes':
+    cursor.execute("DROP TABLE students")
+    print("⚠️ Table dropped!")
+
+cursor.close()
+mydb.close()
+print("\n✅ Program finished successfully!")

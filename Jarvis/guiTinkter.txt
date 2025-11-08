@@ -1,0 +1,41 @@
+# ====================================================
+# 🪟  pip install tk
+
+# ====================================================
+
+import tkinter as tk
+
+# Create main window
+window = tk.Tk()
+window.title("My First GUI in Python")
+window.geometry("400x300")  # width x height
+window.configure(bg="#e6f2ff")  # light blue background
+
+# Function to display message
+def show_message():
+    name = entry.get()
+    if name.strip() == "":
+        label_result.config(text="Please enter your name!", fg="red")
+    else:
+        label_result.config(text=f"Hello, {name}! 👋", fg="green")
+
+# Label
+label_title = tk.Label(window, text="Welcome to GUI Program!", 
+                       font=("Arial", 16, "bold"), bg="#e6f2ff", fg="#003366")
+label_title.pack(pady=15)
+
+# Entry box
+entry = tk.Entry(window, width=25, font=("Arial", 14))
+entry.pack(pady=10)
+
+# Button
+btn = tk.Button(window, text="Click Me", command=show_message,
+                font=("Arial", 14), bg="#4da6ff", fg="white", width=12)
+btn.pack(pady=10)
+
+# Label for result
+label_result = tk.Label(window, text="", font=("Arial", 14), bg="#e6f2ff")
+label_result.pack(pady=20)
+
+# Run the main window loop
+window.mainloop()

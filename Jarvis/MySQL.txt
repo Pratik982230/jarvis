@@ -1,0 +1,81 @@
+# ============================================================
+# 🐬 MySQL Database Access - All Operations in One
+#       pip install mysql-connector-python   # pip install pymongo  
+# ============================================================
+
+import mysql.connector
+
+# ----------- CONNECTION -----------
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="your_password"   # 🔹 Replace with your MySQL password
+)
+
+cursor = mydb.cursor()
+
+# ----------- CREATE DATABASE -----------
+cursor.execute("CREATE DATABASE IF NOT EXISTS school")
+cursor.execute("USE school")
+
+# ----------- CREATE TABLE -----------
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT,
+    grade VARCHAR(10)
+)
+""")
+
+# ----------- INSERT DATA -----------
+n = int(input("Enter number of students to insert: "))
+for i in range(n):
+    name = input(f"Enter name for student {i+1}: ")
+    age = int(input("Enter age: "))
+    grade = input("Enter grade: ")
+    cursor.execute("INSERT INTO students (name, age, grade) VALUES (%s, %s, %s)", (name, age, grade))
+    mydb.commit()
+
+print("\n✅ Data inserted successfully!")
+
+# ----------- SELECT DATA -----------
+print("\n📘 All Students:")
+cursor.execute("SELECT * FROM students")
+for row in cursor.fetchall():
+    print(row)
+
+# ----------- WHERE CONDITION -----------
+age_limit = int(input("\nEnter age limit to filter: "))
+cursor.execute("SELECT * FROM students WHERE age > %s", (age_limit,))
+print(f"\n🎯 Students older than {age_limit}:")
+for row in cursor.fetchall():
+    print(row)
+
+# ----------- ORDER BY -----------
+cursor.execute("SELECT * FROM students ORDER BY name ASC")
+print("\n🔤 Students ordered by name:")
+for row in cursor.fetchall():
+    print(row)
+
+# ----------- UPDATE -----------
+update_id = int(input("\nEnter ID to update grade: "))
+new_grade = input("Enter new grade: ")
+cursor.execute("UPDATE students SET grade = %s WHERE id = %s", (new_grade, update_id))
+mydb.commit()
+print("✅ Record updated!")
+
+# ----------- DELETE -----------
+del_id = int(input("\nEnter ID to delete: "))
+cursor.execute("DELETE FROM students WHERE id = %s", (del_id,))
+mydb.commit()
+print("🗑️ Record deleted!")
+
+# ----------- DROP TABLE -----------
+drop = input("\nDo you want to drop the table? (yes/no): ")
+if drop.lower() == 'yes':
+    cursor.execute("DROP TABLE students")
+    print("⚠️ Table dropped!")
+
+cursor.close()
+mydb.close()

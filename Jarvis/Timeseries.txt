@@ -1,0 +1,73 @@
+# ============================================================
+# 🕒 PANDAS - TIME SERIES ANALYSIS (All in One)
+#   pip install pandas
+#   pip install numpy
+ #  pip install matplotlib
+# ============================================================
+
+# ------------------------------------------------------------
+# 1️⃣ IMPORT LIBRARIES
+# ------------------------------------------------------------
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ------------------------------------------------------------
+# 2️⃣ CREATE A TIME SERIES DATASET
+# ------------------------------------------------------------
+# Generate a date range
+dates = pd.date_range(start='2025-01-01', end='2025-01-15', freq='D')
+
+# Create random temperature data
+temperature = np.random.randint(15, 35, size=len(dates))
+
+# Create a DataFrame
+data = pd.DataFrame({'Date': dates, 'Temperature': temperature})
+
+# Set 'Date' as index
+data.set_index('Date', inplace=True)
+
+print("=== 📅 Original Time Series Data ===")
+print(data)
+
+# ------------------------------------------------------------
+# 3️⃣ VIEW BASIC INFORMATION
+# ------------------------------------------------------------
+print("\n=== 🔍 Data Info ===")
+print(data.info())
+
+print("\n=== 📊 Statistical Summary ===")
+print(data.describe())
+
+# ------------------------------------------------------------
+# 4️⃣ TIME SERIES OPERATIONS
+# ------------------------------------------------------------
+# a) Selecting specific date
+print("\n=== 🌤 Temperature on 2025-01-05 ===")
+print(data.loc['2025-01-05'])
+
+# b) Slicing between two dates
+print("\n=== 📆 Data between 2025-01-05 and 2025-01-10 ===")
+print(data.loc['2025-01-05':'2025-01-10'])
+
+# c) Rolling Mean (7-day moving average)
+data['7-Day Avg'] = data['Temperature'].rolling(window=7).mean()
+
+# d) Resampling - Group by week (mean temperature)
+weekly_avg = data.resample('W').mean()
+
+print("\n=== 📈 Weekly Average Temperature ===")
+print(weekly_avg)
+
+# ------------------------------------------------------------
+# 5️⃣ PLOTTING THE TIME SERIES
+# ------------------------------------------------------------
+plt.figure(figsize=(10,5))
+plt.plot(data.index, data['Temperature'], label='Daily Temperature', marker='o')
+plt.plot(data.index, data['7-Day Avg'], label='7-Day Moving Average', color='red', linestyle='--')
+plt.title('🌡 Temperature Time Series (Pandas)')
+plt.xlabel('Date')
+plt.ylabel('Temperature (°C)')
+plt.legend()
+plt.grid(True)
+plt.show()

@@ -1,0 +1,96 @@
+# ==============================================================
+# 📘 NUMPY vs PANDAS - All in One Program with User Input
+# Covers:
+# 1️⃣ Introduction
+# 2️⃣ Creating Arrays (NumPy)
+# 3️⃣ Creating DataFrames (Pandas)
+# 4️⃣ Performing Operations
+# 5️⃣ Comparison of Results
+# ==============================================================
+
+# ------------------- INSTALLATION -----------------------------
+# Run in terminal if not installed:
+# pip install numpy pandas
+
+# ------------------- IMPORT LIBRARIES --------------------------
+import numpy as np
+import pandas as pd
+
+print("\n✅ Libraries Imported Successfully!")
+
+# ==============================================================
+# 1️⃣ USER INPUT SECTION
+# ==============================================================
+print("\n📥 --- USER INPUT SECTION ---")
+n = int(input("Enter number of elements: "))
+
+elements = []
+for i in range(n):
+    value = float(input(f"Enter element {i+1}: "))
+    elements.append(value)
+
+print("\nYour entered data:", elements)
+
+# ==============================================================
+# 2️⃣ NUMPY OPERATIONS
+# ==============================================================
+print("\n🔹 --- NUMPY OPERATIONS ---")
+
+arr = np.array(elements)
+print("NumPy Array:", arr)
+
+print("\nMean:", np.mean(arr))
+print("Sum:", np.sum(arr))
+print("Maximum:", np.max(arr))
+print("Minimum:", np.min(arr))
+print("Standard Deviation:", np.std(arr))
+print("Array * 2:", arr * 2)
+
+# ==============================================================
+# 3️⃣ PANDAS OPERATIONS
+# ==============================================================
+print("\n🔹 --- PANDAS OPERATIONS ---")
+
+# Create a simple Pandas DataFrame
+names = []
+for i in range(n):
+    name = input(f"Enter name for element {i+1}: ")
+    names.append(name)
+
+data = {'Name': names, 'Value': elements}
+df = pd.DataFrame(data)
+
+print("\nPandas DataFrame:\n", df)
+
+print("\nMean of 'Value':", df['Value'].mean())
+print("Max Value:", df['Value'].max())
+print("Min Value:", df['Value'].min())
+
+# Add new column based on condition
+df['Category'] = ['High' if v > df['Value'].mean() else 'Low' for v in df['Value']]
+
+print("\nDataFrame after adding 'Category' column:\n", df)
+
+# ==============================================================
+# 4️⃣ COMPARISON OF NUMPY vs PANDAS
+# ==============================================================
+print("\n⚖️ --- COMPARISON ---")
+
+print("""
+| Feature              | NumPy                           | Pandas                         |
+|-----------------------|----------------------------------|--------------------------------|
+| Data Structure        | N-dimensional Array (ndarray)    | Series / DataFrame             |
+| Handles Missing Data  | No                               | Yes                            |
+| Data Type Support     | Mostly Numeric                   | Mixed (Numeric, String, etc.)  |
+| Best for              | Mathematical Computations        | Data Analysis & Cleaning       |
+""")
+
+# ==============================================================
+# 5️⃣ SAVE OUTPUT (OPTIONAL)
+# ==============================================================
+save_option = input("\nDo you want to save the DataFrame as 'comparison_data.csv'? (yes/no): ")
+if save_option.lower() == 'yes':
+    df.to_csv("comparison_data.csv", index=False)
+    print("💾 File saved successfully as 'comparison_data.csv'!")
+
+print("\n🎯 Program Executed Successfully!")

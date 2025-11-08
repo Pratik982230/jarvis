@@ -1,0 +1,128 @@
+# ================================================================
+# 🧮 NUMPY - MENU DRIVEN ALL IN ONE PROGRAM
+#      pip install numpy
+# ================================================================
+
+import numpy as np
+
+print("=============================================")
+print("          🧩 NUMPY PRACTICAL PROGRAM")
+print("=============================================")
+
+arr = np.array([])   # Empty array initially
+
+# Function Definitions
+def create_array():
+    global arr
+    n = int(input("Enter number of elements: "))
+    elements = []
+    for i in range(n):
+        val = float(input(f"Enter element {i+1}: "))
+        elements.append(val)
+    arr = np.array(elements)
+    print("\n✅ Array Created Successfully!")
+    print("Array:", arr)
+
+def show_array_info():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    print("\nArray Information:")
+    print("Array:", arr)
+    print("Data Type:", arr.dtype)
+    print("Shape:", arr.shape)
+    print("Size:", arr.size)
+    print("Dimension:", arr.ndim)
+
+def array_indexing():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    idx = int(input("Enter index (0 to n-1): "))
+    if 0 <= idx < len(arr):
+        print(f"Element at index {idx}:", arr[idx])
+    else:
+        print("Invalid index!")
+
+def convert_dtype():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    dtype = input("Enter new data type (int, float, str): ")
+    converted = arr.astype(dtype)
+    print("Converted Array:", converted, "| Type:", converted.dtype)
+
+def numpy_functions():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    print("\n--- NumPy Functions ---")
+    print("Sum:", np.sum(arr))
+    print("Mean:", np.mean(arr))
+    print("Standard Deviation:", np.std(arr))
+    print("Max:", np.max(arr))
+    print("Min:", np.min(arr))
+    print("Square Root:", np.sqrt(arr))
+    print("Exponential:", np.exp(arr))
+
+def basic_operations():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    print("\n--- Basic Operations ---")
+    print("Addition (+5):", arr + 5)
+    print("Subtraction (-2):", arr - 2)
+    print("Multiplication (*2):", arr * 2)
+    print("Division (/2):", arr / 2)
+    print("Square (**2):", arr ** 2)
+
+def search_and_sort():
+    if arr.size == 0:
+        print("⚠️ Please create an array first!")
+        return
+    val = float(input("Enter value to search: "))
+    res = np.where(arr == val)
+    if res[0].size > 0:
+        print(f"Value {val} found at index:", res[0])
+    else:
+        print(f"Value {val} not found in array.")
+    print("\nElements greater than mean:", arr[np.where(arr > np.mean(arr))])
+    print("Sorted Array:", np.sort(arr))
+
+# ================================================================
+# MAIN MENU LOOP
+# ================================================================
+
+while True:
+    print("\n==================== MENU ====================")
+    print("1. Create NumPy Array")
+    print("2. Show Array Info")
+    print("3. Array Indexing")
+    print("4. Convert Data Type")
+    print("5. NumPy Functions")
+    print("6. Basic Operations")
+    print("7. Searching & Sorting")
+    print("8. Exit")
+    print("==============================================")
+
+    choice = input("Enter your choice (1-8): ")
+
+    if choice == '1':
+        create_array()
+    elif choice == '2':
+        show_array_info()
+    elif choice == '3':
+        array_indexing()
+    elif choice == '4':
+        convert_dtype()
+    elif choice == '5':
+        numpy_functions()
+    elif choice == '6':
+        basic_operations()
+    elif choice == '7':
+        search_and_sort()
+    elif choice == '8':
+        print("\n✅ Exiting Program. Thank you!")
+        break
+    else:
+        print("❌ Invalid Choice! Please enter between 1-8.")

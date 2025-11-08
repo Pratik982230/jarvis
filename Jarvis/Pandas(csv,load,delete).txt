@@ -1,0 +1,95 @@
+# ============================================================
+# 📘 PANDAS - All in One Program (NO R NEEDED)
+#pip install pandas numpy matplotlib seaborn
+#
+# Topics:
+# 1. Installation of Pandas
+# 2. Import Pandas
+# 3. Read CSV Files
+# 4. Viewing the Data
+# 5. Cleaning Data
+# 6. Removing Duplicates
+# ============================================================
+
+# ------------------------------------------------------------
+# 1️⃣ INSTALLATION (run in terminal if not installed)
+# ------------------------------------------------------------
+# pip install pandas
+
+# ------------------------------------------------------------
+# 2️⃣ IMPORT PANDAS
+# ------------------------------------------------------------
+import pandas as pd
+
+print("\n✅ Pandas Imported Successfully!")
+
+# ------------------------------------------------------------
+# 3️⃣ READ CSV FILE (User Input)
+# ------------------------------------------------------------
+file_name = input("\nEnter the CSV file name (with .csv extension): ")
+
+try:
+    df = pd.read_csv(file_name)
+    print("\n✅ CSV File Loaded Successfully!\n")
+
+except FileNotFoundError:
+    print("❌ File not found! Loading sample data instead...\n")
+    # Create a small sample dataset
+    data = {
+        'Name': ['Pratik', 'Dadu', 'Riya', 'Pratik', 'Amit', 'Riya'],
+        'Age': [21, 22, None, 21, 23, 22],
+        'City': ['Pune', 'Mumbai', 'Delhi', 'Pune', 'Nagpur', 'Delhi']
+    }
+    df = pd.DataFrame(data)
+
+# ------------------------------------------------------------
+# 4️⃣ VIEWING THE DATA
+# ------------------------------------------------------------
+print("🔹 First 5 Rows (head):")
+print(df.head())
+
+print("\n🔹 Last 5 Rows (tail):")
+print(df.tail())
+
+print("\n🔹 Data Info:")
+print(df.info())
+
+print("\n🔹 Summary Statistics:")
+print(df.describe())
+
+# ------------------------------------------------------------
+# 5️⃣ CLEANING DATA
+# ------------------------------------------------------------
+print("\n🧹 Cleaning Data...")
+
+# Check for missing values
+print("\nMissing values before cleaning:")
+print(df.isnull().sum())
+
+# Fill missing values (with mean)
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+
+print("\nMissing values after filling:")
+print(df.isnull().sum())
+
+# ------------------------------------------------------------
+# 6️⃣ REMOVING DUPLICATES
+# ------------------------------------------------------------
+print("\n📋 Checking for Duplicates:")
+print(df[df.duplicated()])
+
+# Remove duplicates
+df.drop_duplicates(inplace=True)
+
+print("\n✅ After Removing Duplicates:")
+print(df)
+
+# ------------------------------------------------------------
+# 7️⃣ SAVE CLEANED DATA
+# ------------------------------------------------------------
+save_option = input("\nDo you want to save cleaned data to 'cleaned_data.csv'? (yes/no): ")
+if save_option.lower() == 'yes':
+    df.to_csv("cleaned_data.csv", index=False)
+    print("💾 Cleaned data saved successfully as 'cleaned_data.csv'!")
+
+print("\n🎯 PROGRAM COMPLETED SUCCESSFULLY!")

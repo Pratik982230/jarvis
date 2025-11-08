@@ -1,0 +1,39 @@
+# ====================================================
+# 📈 Simple Graphs using Matplotlib
+# ====================================================
+
+import matplotlib.pyplot as plt
+
+# Data for plotting
+x = [1, 2, 3, 4, 5]
+y1 = [2, 4, 6, 8, 10]
+y2 = [1, 4, 9, 16, 25]
+
+# 1️⃣ Line Graph
+plt.figure("Line Graph")
+plt.plot(x, y1, marker='o', color='b', label='y = 2x')
+plt.plot(x, y2, marker='s', color='r', label='y = x²')
+plt.title("Line Graph Example")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# 2️⃣ Bar Graph
+plt.figure("Bar Graph")
+plt.bar(x, y1, color='orange', label='y = 2x')
+plt.title("Bar Graph Example")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.legend()
+plt.show()
+
+# 3️⃣ Scatter Plot
+plt.figure("Scatter Plot")
+plt.scatter(x, y2, color='green', label='y = x²')
+plt.title("Scatter Plot Example")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+plt.legend()
+plt.show()
