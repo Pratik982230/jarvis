@@ -2,6 +2,7 @@
 # 🧩 UNIT V: GUI in Python - All Topics in One Program
 #   pip install PyQt5
 #   python -m tkinter
+#  pip install tk
 # ============================================================
 
 # ----------- IMPORTS -----------
@@ -119,3 +120,4 @@ pyqt_label.pack(padx=5, pady=5, fill="x")
 # MAINLOOP
 # ============================================================
 root.mainloop()
+
