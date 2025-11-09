@@ -1,5 +1,6 @@
 # ====================================================
 # 📈 Simple Graphs using Matplotlib
+#      pip install matplotlib
 # ====================================================
 
 import matplotlib.pyplot as plt
@@ -37,3 +38,4 @@ plt.xlabel("X-axis")
 plt.ylabel("Y-axis")
 plt.legend()
 plt.show()
+
