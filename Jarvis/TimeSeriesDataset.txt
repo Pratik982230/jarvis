@@ -1,0 +1,38 @@
+# ============================================================
+# 🕒 SIMPLE TIME SERIES USING INBUILT DATASET  
+#  pip install pandas matplotlib statsmodels
+# ============================================================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ------------------------------------------------------------
+# 1️⃣ LOAD INBUILT TIME SERIES DATASET
+# ------------------------------------------------------------
+# Pandas has a built-in dataset 'AirPassengers' (available via seaborn or statsmodels)
+# Let's use statsmodels for this example
+from statsmodels.datasets import get_rdataset
+
+# Load dataset
+data = get_rdataset('AirPassengers').data
+
+# Convert to pandas DataFrame with proper DateTime index
+data['Month'] = pd.to_datetime(data['time'], format='%Y')
+data.set_index('Month', inplace=True)
+
+# ------------------------------------------------------------
+# 2️⃣ VIEW DATA
+# ------------------------------------------------------------
+print("=== 🗓 Sample Time Series Data ===")
+print(data.head())
+
+# ------------------------------------------------------------
+# 3️⃣ PLOT THE TIME SERIES
+# ------------------------------------------------------------
+plt.figure(figsize=(10, 5))
+plt.plot(data.index, data['value'], color='blue', marker='o', linestyle='-')
+plt.title('✈️ AirPassengers Time Series')
+plt.xlabel('Year')
+plt.ylabel('Number of Passengers')
+plt.grid(True)
+plt.show()
