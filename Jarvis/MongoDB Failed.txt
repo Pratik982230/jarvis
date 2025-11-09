@@ -1,0 +1,58 @@
+# =====================================================
+# 🍃 MongoDB CRUD Example (Local First Priority)
+#    pip install pymongo
+# =====================================================
+use_mongo = False
+students = []   # Local list storage
+
+# ---- Try MongoDB connection (optional) ----
+try:
+    from pymongo import MongoClient
+    client = MongoClient("mongodb://localhost:27017/", serverSelectionTimeoutMS=2000)
+    client.server_info()   # Check if MongoDB server is running
+    db = client["school"]
+    collection = db["students"]
+    use_mongo = True
+    print("✅ MongoDB connected")
+except:
+    print("⚙️ Using local list (MongoDB not found)")
+
+# -------- INSERT --------
+n = int(input("Enter number of students: "))
+for i in range(n):
+    name = input("Name: ")
+    age = int(input("Age: "))
+    grade = input("Grade: ")
+    data = {"name": name, "age": age, "grade": grade}
+    if use_mongo:
+        collection.insert_one(data)
+    else:
+        students.append(data)
+
+# -------- DISPLAY --------
+print("\n📘 All Students:")
+if use_mongo:
+    for s in collection.find():
+        print(s)
+else:
+    for s in students:
+        print(s)
+
+# -------- UPDATE --------
+name_u = input("\nEnter name to update: ")
+new_g = input("New grade: ")
+if use_mongo:
+    collection.update_one({"name": name_u}, {"$set": {"grade": new_g}})
+else:
+    for s in students:
+        if s["name"] == name_u:
+            s["grade"] = new_g
+print("✅ Updated!")
+
+# -------- DELETE --------
+name_d = input("\nEnter name to delete: ")
+if use_mongo:
+    collection.delete_one({"name": name_d})
+else:
+    students = [s for s in students if s["name"] != name_d]
+print("🗑️ Deleted!")
