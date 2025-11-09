@@ -1,0 +1,68 @@
+# =============================================================
+# 🐍 MongoDB CRUD Operations using PyMongo (With User Input)
+#  pip install pymongo
+# =============================================================
+
+from pymongo import MongoClient
+
+# ---------- CONNECT TO MONGODB ----------
+client = MongoClient("mongodb://localhost:27017/")  # Default local connection
+db = client["studentDB"]  # Database
+collection = db["students"]  # Collection (table equivalent)
+
+print("=============================================")
+print("      📘 MongoDB CRUD OPERATIONS")
+print("=============================================")
+
+while True:
+    print("""
+    1️⃣ Insert Record (CREATE)
+    2️⃣ Display Records (READ)
+    3️⃣ Update Record (UPDATE)
+    4️⃣ Delete Record (DELETE)
+    5️⃣ Exit
+    """)
+    
+    choice = input("Enter your choice (1-5): ")
+
+    # ---------- CREATE ----------
+    if choice == '1':
+        name = input("Enter student name: ")
+        roll = int(input("Enter roll number: "))
+        marks = float(input("Enter marks: "))
+        record = {"name": name, "roll": roll, "marks": marks}
+        collection.insert_one(record)
+        print("✅ Record inserted successfully!")
+
+    # ---------- READ ----------
+    elif choice == '2':
+        print("\n📄 All Student Records:")
+        for doc in collection.find():
+            print(doc)
+
+    # ---------- UPDATE ----------
+    elif choice == '3':
+        roll = int(input("Enter roll number to update: "))
+        new_marks = float(input("Enter new marks: "))
+        result = collection.update_one({"roll": roll}, {"$set": {"marks": new_marks}})
+        if result.modified_count > 0:
+            print("✅ Record updated successfully!")
+        else:
+            print("⚠️ Record not found!")
+
+    # ---------- DELETE ----------
+    elif choice == '4':
+        roll = int(input("Enter roll number to delete: "))
+        result = collection.delete_one({"roll": roll})
+        if result.deleted_count > 0:
+            print("🗑️ Record deleted successfully!")
+        else:
+            print("⚠️ Record not found!")
+
+    # ---------- EXIT ----------
+    elif choice == '5':
+        print("👋 Exiting program...")
+        break
+
+    else:
+        print("❌ Invalid choice! Try again.")
