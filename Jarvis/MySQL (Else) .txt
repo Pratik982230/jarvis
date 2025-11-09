@@ -1,0 +1,59 @@
+# =====================================================
+# 🧩 DATABASE CRUD using MySQL (or SQLite if MySQL fails)
+# =====================================================
+# pip install mysql-connector-python
+import sqlite3
+try:
+    import mysql.connector
+    use_mysql = True
+except:
+    use_mysql = False
+
+print("===== DATABASE CRUD PROGRAM =====")
+
+# ---------- CONNECTION ----------
+try:
+    if use_mysql:
+        db = mysql.connector.connect(host="localhost", user="root", password="your_password")
+        cur = db.cursor()
+        cur.execute("CREATE DATABASE IF NOT EXISTS school")
+        cur.execute("USE school")
+        print("✅ Connected to MySQL")
+    else:
+        raise Exception
+except:
+    db = sqlite3.connect("school.db")
+    cur = db.cursor()
+    print("⚙️ Using SQLite (MySQL not found)")
+
+# ---------- CREATE TABLE ----------
+cur.execute("CREATE TABLE IF NOT EXISTS students(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INT, grade TEXT)")
+
+# ---------- INSERT ----------
+n = int(input("Enter number of students: "))
+for i in range(n):
+    name = input("Name: ")
+    age = int(input("Age: "))
+    grade = input("Grade: ")
+    cur.execute("INSERT INTO students(name, age, grade) VALUES(?, ?, ?)", (name, age, grade))
+    db.commit()
+
+# ---------- DISPLAY ----------
+print("\n📘 Student Records:")
+for row in cur.execute("SELECT * FROM students"):
+    print(row)
+
+# ---------- UPDATE ----------
+uid = int(input("\nEnter ID to update: "))
+new_grade = input("New Grade: ")
+cur.execute("UPDATE students SET grade=? WHERE id=?", (new_grade, uid))
+db.commit()
+
+# ---------- DELETE ----------
+did = int(input("\nEnter ID to delete: "))
+cur.execute("DELETE FROM students WHERE id=?", (did,))
+db.commit()
+
+print("\n✅ Done Successfully!")
+
+db.close()
