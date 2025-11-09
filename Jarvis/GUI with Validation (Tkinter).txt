@@ -1,5 +1,6 @@
 # ==============================================================
 # 🎨 Python Tkinter Form with Input Validation
+#     pip install tk
 # ==============================================================
 
 import tkinter as tk
