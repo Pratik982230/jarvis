@@ -1,0 +1,26 @@
+# ============================================================
+# 🎯 pip install numpy matplotlib
+
+# ============================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Mean (μ) and Standard Deviation (σ)
+mean = 0      # center of distribution
+std_dev = 1   # spread of distribution
+
+# Generate 1000 random numbers from a Gaussian distribution
+data = np.random.normal(mean, std_dev, 1000)
+
+# Display first 10 random values
+print("Random numbers generated from Gaussian Distribution:")
+print(data[:10])
+
+# Plot the distribution
+plt.hist(data, bins=30, color='skyblue', edgecolor='black')
+plt.title("Gaussian (Normal) Distribution")
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.grid(True)
+plt.show()
