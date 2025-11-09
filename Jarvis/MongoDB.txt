@@ -1,0 +1,48 @@
+# ============================================================
+# 🍃 MongoDB Example - All Operations
+#  pip install pymongo
+# ============================================================
+
+from pymongo import MongoClient
+
+# ----------- CONNECTION -----------
+client = MongoClient("mongodb://localhost:27017/")
+db = client["school"]
+collection = db["students"]
+
+# ----------- INSERT -----------
+n = int(input("Enter number of students: "))
+for i in range(n):
+    name = input("Enter name: ")
+    age = int(input("Enter age: "))
+    grade = input("Enter grade: ")
+    collection.insert_one({"name": name, "age": age, "grade": grade})
+
+print("\n✅ Data inserted!")
+
+# ----------- SELECT -----------
+print("\n📘 All Students:")
+for doc in collection.find():
+    print(doc)
+
+# ----------- WHERE CONDITION -----------
+age_limit = int(input("\nEnter age limit to filter: "))
+for doc in collection.find({"age": {"$gt": age_limit}}):
+    print(doc)
+
+# ----------- UPDATE -----------
+name_update = input("\nEnter name to update grade: ")
+new_grade = input("Enter new grade: ")
+collection.update_one({"name": name_update}, {"$set": {"grade": new_grade}})
+print("✅ Updated!")
+
+# ----------- DELETE -----------
+name_delete = input("\nEnter name to delete: ")
+collection.delete_one({"name": name_delete})
+print("🗑️ Deleted!")
+
+# ----------- DROP COLLECTION -----------
+drop = input("\nDrop collection? (yes/no): ")
+if drop.lower() == 'yes':
+    collection.drop()
+    print("⚠️ Collection dropped!")
