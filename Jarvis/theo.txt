@@ -1,0 +1,108 @@
+🧩 Regular Expressions (re Module) – Theory
+🔹 Introduction
+
+The re module in Python is used for working with Regular Expressions (RegEx).
+Regular expressions are patterns used to match strings, or parts of strings, based on specific rules.
+
+It allows us to:
+
+Search for patterns in text
+
+Replace or modify parts of strings
+
+Split strings based on specific patterns
+
+Validate data such as emails, phone numbers, etc.
+-------------------------------------------------------------------
+✅ Search and Replace with Regular Expressions – Theory
+
+The process of searching and replacing text using regular expressions allows us to find specific patterns in a string and replace them with new text. In Python, this is done using the re module, particularly the re.sub() function.
+
+The re.sub() function searches the entire string for all occurrences of a given pattern and replaces them with the specified replacement string.
+
+Syntax:
+re.sub(pattern, replacement, string)
+Explanation:
+pattern → The regular expression pattern to search for.
+replacement → The text to replace each match with.
+string → The original text to perform the replacement in.
+This method returns a new string where all matched patterns have been replaced.
+Example Usage:
+Used for removing unwanted characters, hiding sensitive data (like phone numbes or emails), correcting spelling, and cleaning text data.
+In short, search and replace with regex is a powerful technique to modify strings efficiently based on flexible matching rules.
+
+--------------------------------------------------------------------------
+✅ Databases with Python – Theory
+Databases are used to store and manage data in an organized way. Python provides various modules to connect and work with databases. The most commonly used modules are sqlite3, mysql.connector, and pymongo.
+Using these modules, Python can perform all basic database operations such as creating databases and tables, inserting, updating, deleting, and retrieving records. These are known as CRUD operations (Create, Read, Update, Delete).
+The general steps to work with databases in Python are:
+Import the required database module.
+Establish a connection to the database.
+Create a cursor object to execute SQL commands.
+Execute SQL queries to perform operations.
+Commit the changes.
+Close the connection.
+Database connectivity in Python makes it easy to handle data, build applications, and integrate with different database systems effectively.
+
+--------------------------------------------------------------------------------
+✅ Introduction to NumPy – Theory
+NumPy (Numerical Python) is a powerful open-source library in Python used for numerical and scientific computing. It provides support for multi-dimensional arrays (ndarray) and a large collection of mathematical functions to perform operations efficiently.
+It is widely used in data analysis, machine learning, image processing, and scientific research.
+Key Features of NumPy:
+Support for n-dimensional arrays.
+Mathematical and statistical functions for data operations.
+Broadcasting for performing operations on arrays of different sizes.
+Integration with other libraries like Pandas, Matplotlib, and SciPy.
+To install NumPy:
+pip install numpy
+----------------------------------------------------------------------------------
+
+✅ Introduction to Pandas – Theory
+
+Pandas is an open-source Python library used for data manipulation and analysis. It provides powerful and flexible data structures that make working with structured data easy and efficient.
+The main data structures in Pandas are:
+Series → A one-dimensional labeled array.
+DataFrame → A two-dimensional table of data with labeled rows and columns.
+Pandas is built on top of NumPy and integrates well with other libraries like Matplotlib and Scikit-learn for data visualization and machine learning.
+Key Features of Pandas:
+Easy handling of missing data.
+Tools for reading and writing data from various file formats like CSV, Excel, SQL, etc.
+Powerful data selection, filtering, and grouping functions.
+Support for data cleaning, merging, and reshaping.
+To install Pandas:
+pip install pandas
+
+-------------------------------------------------------------------------------------
+✅ GUI in Python – Theory
+
+GUI (Graphical User Interface) in Python allows users to interact with programs visually using elements like buttons, labels, text boxes, and menus, instead of typing commands in the console.
+Python provides several libraries to create GUI applications easily. The most commonly used library is Tkinter, which comes pre-installed with Python.
+🔹 Tkinter (Standard GUI Library)
+Tkinter is the built-in module for creating GUI applications in Python. It provides various widgets such as:
+Label → to display text
+Button → to perform actions
+Entry → to take user input
+Frame, Canvas, Menu, MessageBox, etc.
+🔹 Basic Steps to Create a GUI
+Import the Tkinter module
+from tkinter import *
+Create the main window
+root = Tk()
+Add widgets (buttons, labels, etc.)
+Label(root, text="Hello GUI").pack()
+Run the main event loop
+root.mainloop()
+
+------------------------------------------------------------------------------------------
+✅ Scikit-Learn (sklearn) – Theory
+Scikit-Learn, also known as sklearn, is an open-source Python library used for machine learning and data analysis. It provides simple and efficient tools for building predictive models and performing various data mining and data analysis tasks.
+Scikit-Learn is built on top of NumPy, SciPy, and Matplotlib, making it fast and easy to integrate with other data science libraries.
+It supports a wide range of machine learning algorithms, including:
+Supervised Learning → Classification and Regression
+Unsupervised Learning → Clustering and Dimensionality Reduction
+Model Selection and Evaluation → Cross-validation and performance metrics
+Data Preprocessing → Scaling, encoding, and splitting data
+In short:
+Scikit-Learn is a powerful and easy-to-use Python library that provides tools for machine learning, data preprocessing, model training, and evaluation.
+
+-------------------------------------------------------------------------------------
